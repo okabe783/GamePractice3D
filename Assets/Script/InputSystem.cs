@@ -1,14 +1,12 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class InputSystem : MonoBehaviour
 {
-    Animator _animator = null;
-
+    Animator animator;
     private void Start()
     {
-        _animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -30,19 +28,22 @@ public class InputSystem : MonoBehaviour
         //左ボタンが押された瞬間かどうか
         if (leftButton.wasPressedThisFrame)
         {
-            _animator.SetTrigger("Onclick");
+            animator.SetBool("GunShoot",true);
         }
-            //Debug.Log($"左ボタンが押された{cursorPosition}");
-       // }
-        // //左ボタンが離された瞬間かどうか
-        // if (leftButton.wasReleasedThisFrame)
-        // {
-        //     Debug.Log($"左ボタンが離された{cursorPosition}");
-        // }
+        //左ボタンが離された瞬間かどうか
+        if (leftButton.wasReleasedThisFrame)
+        {
+            Debug.Log($"左ボタンが離された{cursorPosition}");
+            Invoke("BoolSet",0.5f);
+        }
         // //左ボタンを押しているかどうか
         // if (leftButton.isPressed)
         // {
         //     Debug.Log($"左ボタンを押している{cursorPosition}");
         // }
+    }
+    void BoolSet()
+    {
+        animator.SetBool(("GunShoot"),false);
     }
 }
