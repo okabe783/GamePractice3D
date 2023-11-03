@@ -30,10 +30,10 @@ public class InputSystem : MonoBehaviour
         //左ボタンが押された瞬間かどうか
         if (leftButton.wasPressedThisFrame)
         {
-            _animator.SetBool("_onclick", true);
+            _animator.SetTrigger("Onclick");
         }
-        //     //Debug.Log($"左ボタンが押された{cursorPosition}");
-        // }
+            //Debug.Log($"左ボタンが押された{cursorPosition}");
+       // }
         // //左ボタンが離された瞬間かどうか
         // if (leftButton.wasReleasedThisFrame)
         // {
