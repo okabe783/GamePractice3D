@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class InputSystem : MonoBehaviour
 {
     Animator animator;
+    [SerializeField] private BulletController _bulletController;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -29,6 +30,7 @@ public class InputSystem : MonoBehaviour
         if (leftButton.wasPressedThisFrame)
         {
             animator.SetBool("GunShoot",true);
+            _bulletController.BulletShoot();
         }
         //左ボタンが離された瞬間かどうか
         if (leftButton.wasReleasedThisFrame)
