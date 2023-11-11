@@ -6,7 +6,7 @@ public class InputSystem : MonoBehaviour
 {
     Animator animator;
     Rigidbody rb;
-    [SerializeField] private BulletController bulletController;
+    [SerializeField] BulletController bulletController;
     private float speed = 3.0f;
     //x軸方向の入力を保存
     private float inputX;
