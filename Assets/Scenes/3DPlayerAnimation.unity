@@ -861,7 +861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc85cc0a554b51d4c877b2e183d66af2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletController: {fileID: 0}
+  bulletController: {fileID: 2036874832}
 --- !u!1 &1764099229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1154,6 +1154,17 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 30a9f5c8ac6483249a92e09c302f96f9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3353e4f866c39d043a315b41717c9bb7, type: 3}
+--- !u!114 &2036874832 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 328275779731609849, guid: dcd2342cea1363643b4bff207e0b3656, type: 3}
+  m_PrefabInstance: {fileID: 328275779465204879}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75aa2ddb173968c4f84874d67b65c54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &320907155519501205
 PrefabInstance:
   m_ObjectHideFlags: 0

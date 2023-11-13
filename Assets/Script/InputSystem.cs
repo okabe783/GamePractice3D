@@ -34,8 +34,7 @@ public class InputSystem : MonoBehaviour
         //左ボタンが押された瞬間かどうか
         if (mouseCurrent.leftButton.wasPressedThisFrame)
         {
-            // animator.SetBool("GunShoot", true);
-            animator.Play("attack");
+            animator.Play("Attack");
             bulletController.BulletShoot();
         }
 
@@ -61,10 +60,5 @@ public class InputSystem : MonoBehaviour
         Vector3 velocity = dir.normalized * speed;
         velocity.y = rb.velocity.y;
         rb.velocity = velocity;
-    }
-
-    void BoolSet()
-    {
-        animator.SetBool(("GunShoot"), false);
     }
 }
