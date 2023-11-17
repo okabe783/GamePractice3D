@@ -7,12 +7,16 @@ public class InputSystem : MonoBehaviour
 {
     /// <summary>動く速さ</summary>
     [SerializeField] float movingSpeed = 5f;
+
     /// <summary>ターンの速さ</summary>
     [SerializeField] float turnSpeed = 3f;
+
     [SerializeField] BulletController bulletController;
-    Animator animator;
+    public Animator animator;
     Rigidbody rb;
+
     private float speed = 3.0f;
+
     //x軸方向の入力を保存
     private float inputX;
 
@@ -25,6 +29,7 @@ public class InputSystem : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    //入力の受付
     private void Update()
     {
         //現在のマウス情報
@@ -39,17 +44,19 @@ public class InputSystem : MonoBehaviour
         //左ボタンが押された瞬間かどうか
         if (mouseCurrent.leftButton.wasPressedThisFrame)
         {
-                
+            bulletController.BulletShoot();
+            animator.SetTrigger("Shot");
         }
 
         //左ボタンが離された瞬間かどうか
         if (mouseCurrent.leftButton.wasReleasedThisFrame)
         {
-
+            
         }
     }
 
     //30フレームに固定
+    //実行間隔が変わったら困る処理
     private void FixedUpdate()
     {
         // 方向の入力を取得し、方向を求める
@@ -80,6 +87,8 @@ public class InputSystem : MonoBehaviour
             rb.velocity = velo; // 計算した速度ベクトルをセットする
         }
     }
+
+    //updateの後に呼ばれる処理
     void LateUpdate()
     {
         // アニメーションを操作する
