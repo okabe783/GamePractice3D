@@ -1,119 +1,143 @@
 using UnityEngine;
+using System.Collections;
 
-public class PlayerController : MonoBehaviour
-{
-    public float 		Accel		= 0.025f;
-    public float 		MaxSpeed	= 2.0f;
-    public float 		Handling 	= 50.0f;
-    public float 		JumpForce 	= 10.0f;
+public class PlayerController : MonoBehaviour {
 
-    private float 		_brake = 0.1f;
-    private bool		_isJump = false;
-    private Rigidbody 	_rigidBody;
-    private Animator	_animator;
+	public float 		Accel		= 0.025f;
+	public float 		MaxSpeed	= 2.0f;
+	public float 		Handling 	= 50.0f;
+	public float 		JumpForce 	= 10.0f;
 
-    private float _accell = 0;
+	private float 		m_brake = 0.1f;
+	private bool		m_isJump = false;
+	private Rigidbody 	m_rigidBody;
+	private Animator	m_animator;
 
-    void Start()
-    {
-        _animator = gameObject.GetComponent<Animator>();
-        _brake = MaxSpeed / 10.0f;
-    }
-    void Update()
-    {
-        Move();
-        Rotation();
-        Jump();
-    }
 
-    void Move()
-    {
-        //前後移動
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            Debug.Log("押した");
-            _accell += Accel;
-            if (_accell > 1.0f)
-            {
-                _accell = 1.0f;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                _accell -= Accel;
-                if (_accell < -1.0f)
-                {
-                    _accell = 1.0f;
-                }
-                else
-                {
-                    if (_accell > 0)
-                    {
-                        _accell -= _brake;
-                    }
+	float m_Accell = 0;
 
-                    if (_accell < 0)
-                    {
-                        _accell += _brake;
-                    }
+	// Use this for initialization
+	void Start () {
+		m_rigidBody = transform.GetComponent<Rigidbody> ();
+		m_animator 	= gameObject.GetComponent<Animator> ();
 
-                    if (Mathf.Abs(_accell) <= _brake)
-                    {
-                        _accell = 0f;
-                    }
+		m_brake = MaxSpeed / 10.0f;
+	}
+	
+	// Update is called once per frame
+	void Update () {
 
-                    float speedMatrix = 1.0f;
-                    float speed = _accell * MaxSpeed * speedMatrix;
-                    transform.position += transform.TransformDirection(Vector3.forward) * speed * Time.deltaTime;
+		// 前後移動
+		Move ();
 
-                    if (_animator)
-                    {
-                        //アニメーション速度
-                        if (_accell > 0)
-                        {
-                            _animator.speed = 0.5f + _accell * 0.5f;
-                        }
-                        else
-                        {
-                            _animator.speed = 1.0f;
-                        }
-                        //Animatorのパラメーターに値をセット
-                        _animator.SetFloat("Move",Mathf.Abs(speed));
-                    }
-                }
-            }
-        }
-    }
-    private void Rotation()
-    {
-        // 回転
-        Vector3 rot = transform.rotation.eulerAngles;
-        float handle = 0f;
-        if (Input.GetKey (KeyCode.RightArrow))
-        {
-            handle = Handling * Time.deltaTime;
-            rot.y += handle;
-        }
-        if (Input.GetKey (KeyCode.LeftArrow))
-        {
-            handle = Handling * Time.deltaTime;
-            rot.y -= handle;
-        }
-        transform.rotation = Quaternion.Euler (rot);
-    }
-    private void Jump()
-    {
-        // ジャンプ
-        if (Input.GetKey (KeyCode.Space))
-        {
-            if (!_isJump)
-            {
-                _rigidBody.AddForce (Vector3.up * JumpForce, ForceMode.Impulse);
-            }
-            _isJump = true;
-        }
-        else
-        {
-            _isJump = false;
-        }
-    }
+		// 回転
+		Rotation ();
+
+		// Jump
+		Jump();
+	}
+
+
+	/// <summary>
+	/// 前後移動.
+	/// </summary>
+	private void Move ()
+	{
+		// 前後移動
+		if (Input.GetKey (KeyCode.UpArrow))
+		{
+			m_Accell += Accel;
+			if (m_Accell > 1.0f)
+			{
+				m_Accell = 1.0f;
+			}
+		}
+		else if (Input.GetKey (KeyCode.DownArrow))
+		{
+			m_Accell -= Accel;
+			if (m_Accell < -1.0f)
+			{
+				m_Accell = -1.0f;
+			}
+		}
+		else
+		{
+
+			if (m_Accell > 0)
+			{
+				m_Accell -= m_brake;
+			}
+			if (m_Accell < 0)
+			{
+				m_Accell += m_brake;
+			}
+
+			if (Mathf.Abs (m_Accell) <= m_brake)
+			{
+				m_Accell = 0f;
+			}
+
+		}
+
+		float speedMatrix = 1.0f;
+		float speed = m_Accell * MaxSpeed * speedMatrix;
+		transform.position += transform.TransformDirection (Vector3.forward) * speed * Time.deltaTime;
+
+		if (m_animator)
+		{
+			// アニメーション速度
+			if (m_Accell > 0)
+			{
+				m_animator.speed = 0.5f + (m_Accell * 0.5f);
+			} else
+			{
+				m_animator.speed = 1.0f;
+			}
+
+			// Animatorのパラメータに値をセット
+			m_animator.SetFloat ("Move", Mathf.Abs(speed));
+		}
+
+	}
+
+
+	/// <summary>
+	/// 回転.
+	/// </summary>
+	private void Rotation()
+	{
+		// 回転
+		Vector3 rot = transform.rotation.eulerAngles;
+		float handle = 0f;
+		if (Input.GetKey (KeyCode.RightArrow))
+		{
+			handle = Handling * Time.deltaTime;
+			rot.y += handle;
+		}
+		if (Input.GetKey (KeyCode.LeftArrow))
+		{
+			handle = Handling * Time.deltaTime;
+			rot.y -= handle;
+		}
+		transform.rotation = Quaternion.Euler (rot);
+
+	}
+
+
+	private void Jump()
+	{
+		// ジャンプ
+		if (Input.GetKey (KeyCode.Space))
+		{
+			if (!m_isJump)
+			{
+				m_rigidBody.AddForce (Vector3.up * JumpForce, ForceMode.Impulse);
+			}
+			m_isJump = true;
+		}
+		else
+		{
+			m_isJump = false;
+		}
+	}
 }
