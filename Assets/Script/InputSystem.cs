@@ -44,8 +44,8 @@ public class InputSystem : MonoBehaviour
         //左ボタンが押された瞬間かどうか
         if (mouseCurrent.leftButton.wasPressedThisFrame)
         {
-            bulletController.BulletShoot();
-            animator.SetTrigger("Shot");
+            //bulletController.BulletShoot();
+            //animator.SetTrigger("Shot");
         }
 
         //左ボタンが離された瞬間かどうか
