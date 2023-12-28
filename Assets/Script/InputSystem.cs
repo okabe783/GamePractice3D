@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,8 +8,6 @@ public class InputSystem : MonoBehaviour
 
     /// <summary>ターンの速さ</summary>
     [SerializeField] float turnSpeed = 3f;
-
-    [SerializeField] BulletController bulletController;
     public Animator animator;
     Rigidbody rb;
 
