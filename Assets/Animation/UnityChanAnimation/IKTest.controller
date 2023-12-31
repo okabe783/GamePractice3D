@@ -125,19 +125,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Speed
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Jump
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: BaseLayer
@@ -304,12 +304,12 @@ AnimatorStateMachine:
   m_EntryTransitions:
   - {fileID: 7890291300480115221}
   m_StateMachineTransitions:
-  - first: {fileID: -4609445784513561442}
-    second:
-    - {fileID: -8338553677674639145}
   - first: {fileID: 7566089852165388737}
     second:
     - {fileID: 3243975060966534709}
+  - first: {fileID: -4609445784513561442}
+    second:
+    - {fileID: -8338553677674639145}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: -70, z: 0}
   m_EntryPosition: {x: 50, y: 20, z: 0}
