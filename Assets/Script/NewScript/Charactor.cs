@@ -10,6 +10,7 @@ public class Charactor : MonoBehaviour
 {
     private Animator animator;
     public Camera playerCamera = null;
+    public GameObject avator = null;
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
     private Rigidbody groundRigidbody = null; //地面のrb
@@ -105,9 +106,10 @@ public class Charactor : MonoBehaviour
         //rbに力を加えて加速。forcemodeで最初の引数が絶対値の加速度を表していることを示している。
         rb.AddForce(new Vector3(movementInput.x, 0, movementInput.y) * acceleration, ForceMode.Acceleration);
         Vector3 rotate = new Vector3(movement.x, 0, movement.z);
-        if (rotate.magnitude > 0.1f)
+        if (avator != null)
         {
-            transform.LookAt(transform.position + rotate);
+            Quaternion lookRotation = Quaternion.LookRotation(rotate);
+            //avator.transform.rotation = Quaternion.Lerp(lookRotation, avator.transform.rotation, turnSmoothing);
         }
     }
 
