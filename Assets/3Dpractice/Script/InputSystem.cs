@@ -11,7 +11,7 @@ public class InputSystem : MonoBehaviour
     public Animator animator;
     Rigidbody rb;
 
-    private float speed = 3.0f;
+    private float speed;
 
     //x軸方向の入力を保存
     private float inputX;

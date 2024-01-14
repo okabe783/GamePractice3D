@@ -15,6 +15,14 @@ public class SetPosition : MonoBehaviour
         SetDestination(transform.position);
     }
 
+    //ランダムな位置の作成
+    public void CreateRandomPosition()
+    {
+        //ランダムなVector2の値を得る
+        var randDestination = Random.insideUnitCircle * 8;
+        //現在値にランダムな位置を足して目的地とする
+        SetDestination(startPosition + new Vector3(randDestination.x,0,randDestination.y));
+    }
     //目的地を設定する
     public void SetDestination(Vector3 position)
     {
@@ -22,6 +30,7 @@ public class SetPosition : MonoBehaviour
     }
 
     //目的地を取得する
+    //GetDestinationメソッドが呼ばれたら値を取得
     public Vector3 GetDestination()
     {
         return destination;

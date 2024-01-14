@@ -3,60 +3,118 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public enum EnemyState
+    {
+        Walk,
+        Wait,
+        Chase
+    };
+
     private CharacterController enemyController;
-
     private Animator animator;
+    private SetPosition setPosition;
 
-    //目的地
-    private Vector3 destination;
+    [SerializeField] private float speed; //歩くスピード
+    [SerializeField] private float waitTime = 5f; //待ち時間
 
-    [SerializeField] private float speed = 10f;
+    private Vector3 destination; //目的地
+    private Vector3 velocity; //速度
+    private Vector3 direction; //移動方向
 
-    //速度
-    private Vector3 velocity;
+    private float elapsedTime; //経過時間
+    private bool arrived = false; //到着フラグ
 
-    //移動方向
-    private Vector3 direction;
+    private EnemyState state;
+    private Transform playerTransform;
 
-    private bool arrived = false;
-
-    private Vector3 startPosition;
     private void Start()
     {
         enemyController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
-        var randomDesrination = Random.insideUnitCircle * 8;
-        //ランダムに目的地を取得
-        destination = startPosition + new Vector3(randomDesrination.x, 0, randomDesrination.y);
-        //物体が動いていない状態
-        velocity = Vector3.zero;
-        startPosition = transform.position;
+        setPosition = GetComponent<SetPosition>();
+        setPosition.CreateRandomPosition(); //ランダムに目的地を取得
+        velocity = Vector3.zero; //物体が動いていない状態
+        elapsedTime = 0f;
+        Setstate(EnemyState.Walk);
     }
 
     private void Update()
     {
+        //見回りまたはキャラクターを追いかける状態
+        if (state == EnemyState.Walk || state == EnemyState.Chase)
+        {
+            //キャラクターを追いかける状態であればキャラクターの目的地を再設定
+            if (state == EnemyState.Chase)
+            {
+                setPosition.SetDestination(playerTransform.position);
+            }
+        }
+
         if (enemyController.isGrounded)
         {
             velocity = Vector3.zero;
             animator.SetFloat("Speed", 2.0f);
             //目的地　- 現在のキャラの位置　=　方向ベクトル
             //normalizedは正規化した値を出す。最短方向を取り出す
-            direction = (destination - transform.position).normalized;
+            direction = (setPosition.GetDestination() - transform.position).normalized;
             //引数にVector3をいれることで向かせたい位置を指定
-            transform.LookAt(new Vector3(destination.x, transform.position.y, destination.z));
-            //歩くスピードをかけて移動させる
-            velocity = direction * speed;
-            Debug.Log(destination);
-            //到着したのかどうかの判定
-            //２地点の距離はDistanceで求めることができる
-            if (Vector3.Distance(transform.position, destination) < 0.5f)
-            {
-                arrived = true;
-                animator.SetFloat("Speed",0f);
-            }
+            transform.LookAt(new Vector3(setPosition.GetDestination().x,
+                transform.position.y, setPosition.GetDestination().z));
+            velocity = direction * speed; //歩くスピードをかけて移動させる
         }
 
-        velocity.y += Physics.gravity.y * Time.deltaTime;
-        enemyController.Move(velocity * Time.deltaTime);
+        //到着したのかどうかの判定
+        //２地点の距離はDistanceで求めることができる
+        if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 0.7f)
+        {
+            Setstate(EnemyState.Wait);
+            animator.SetFloat("Speed", 0f);
+        }
+        //到着していたら一定時間まつ
+        else if (state == EnemyState.Wait)
+        {
+            elapsedTime += Time.deltaTime;
+        }
+
+        //待ち時間を超えていたら次の目的地を再設定
+        if (elapsedTime > waitTime)
+        {
+            Setstate(EnemyState.Walk);
+        }
+        velocity.y += Physics.gravity.y* Time.deltaTime;
+        enemyController.Move(velocity* Time.deltaTime);
+    }
+
+//敵キャラクターの状態変更
+    public void Setstate(EnemyState tempState, Transform targetObj = null)
+    {
+        if (tempState == EnemyState.Walk)
+        {
+            arrived = false;
+            elapsedTime = 0f;
+            state = tempState;
+            setPosition.CreateRandomPosition();
+        }
+        else if (tempState == EnemyState.Chase)
+        {
+            state = tempState;
+            //待機状態から追いかける場合もあるのでOff
+            arrived = false;
+            //追いかける対象をセット
+            playerTransform = targetObj;
+        }
+        else if (tempState == EnemyState.Wait)
+        {
+            elapsedTime = 0f;
+            state = tempState;
+            arrived = true;
+            velocity = Vector3.zero;
+            animator.SetFloat("Speed", 0f);
+        }
+    }
+    //敵キャラクターの状態取得
+    public EnemyState GetState()
+    {
+        return state;
     }
 }
