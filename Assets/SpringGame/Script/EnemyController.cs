@@ -1,6 +1,4 @@
-using Unity.VisualScripting;
 using UnityEngine;
-
 public class EnemyController : MonoBehaviour
 {
     public enum EnemyState
@@ -19,7 +17,7 @@ public class EnemyController : MonoBehaviour
 
     private Vector3 destination; //目的地
     private Vector3 velocity; //速度
-    private Vector3 direction; //移動方向
+    private Vector3 dir; //移動方向
 
     private float elapsedTime; //経過時間
     private bool arrived = false; //到着フラグ
@@ -56,21 +54,22 @@ public class EnemyController : MonoBehaviour
             animator.SetFloat("Speed", 2.0f);
             //目的地　- 現在のキャラの位置　=　方向ベクトル
             //normalizedは正規化した値を出す。最短方向を取り出す
-            direction = (setPosition.GetDestination() - transform.position).normalized;
+            dir = (setPosition.GetDestination() - transform.position).normalized;
             //引数にVector3をいれることで向かせたい位置を指定
             transform.LookAt(new Vector3(setPosition.GetDestination().x,
                 transform.position.y, setPosition.GetDestination().z));
-            velocity = direction * speed; //歩くスピードをかけて移動させる
+            velocity = dir * speed; //歩くスピードをかけて移動させる
         }
+        Debug.Log(setPosition.GetDestination());
 
         //到着したのかどうかの判定
         //２地点の距離はDistanceで求めることができる
-        if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 0.7f)
+        if (Vector3.Distance(transform.position, setPosition.GetDestination()) < 1.9f)
         {
             Setstate(EnemyState.Wait);
             animator.SetFloat("Speed", 0f);
         }
-        //到着していたら一定時間まつ
+        //到着していたら一定時間まつvelocity
         else if (state == EnemyState.Wait)
         {
             elapsedTime += Time.deltaTime;
@@ -82,7 +81,7 @@ public class EnemyController : MonoBehaviour
             Setstate(EnemyState.Walk);
         }
         velocity.y += Physics.gravity.y* Time.deltaTime;
-        enemyController.Move(velocity* Time.deltaTime);
+        enemyController.Move(velocity);
     }
 
 //敵キャラクターの状態変更

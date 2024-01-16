@@ -12,7 +12,7 @@ public class SetPosition : MonoBehaviour
     {
         //初期位置を設定
         startPosition = transform.position;
-        SetDestination(transform.position);
+        //SetDestination(transform.position);
     }
 
     //ランダムな位置の作成
@@ -27,6 +27,7 @@ public class SetPosition : MonoBehaviour
     public void SetDestination(Vector3 position)
     {
         destination = position;
+        Debug.Log(destination);
     }
 
     //目的地を取得する
