@@ -13,13 +13,16 @@ public class EnemyController : MonoBehaviour
     private SetPosition setPosition;
 
     [SerializeField] private float speed; //歩くスピード
-    [SerializeField] private float waitTime = 5f; //待ち時間
+    [SerializeField] private float waitTime = 2.0f; //待ち時間
+    
 
     private Vector3 destination; //目的地
     private Vector3 velocity; //速度
     private Vector3 dir; //移動方向
 
-    private float elapsedTime; //経過時間
+    private Vector3 basePosition;
+    private float elapsedTime; //残り時間
+    private float walkRange = 5.0f;
     private bool arrived = false; //到着フラグ
 
     private EnemyState state;
@@ -32,7 +35,7 @@ public class EnemyController : MonoBehaviour
         setPosition = GetComponent<SetPosition>();
         setPosition.CreateRandomPosition(); //ランダムに目的地を取得
         velocity = Vector3.zero; //物体が動いていない状態
-        elapsedTime = 0f;
+        
         Setstate(EnemyState.Walk);
     }
 
