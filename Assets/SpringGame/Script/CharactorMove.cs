@@ -2,37 +2,45 @@ using UnityEngine;
 
 public class CharactorMove : MonoBehaviour
 {
-    [SerializeField] private float Speed;
-    
-    private CharacterController characterController;
-    private Vector3 velocity; //速度
+    //移動速度
+    [SerializeField] float movePower = 3;
+    Rigidbody rb;
+    //キャラクターの移動方向を表すベクトル
+    Vector3 dir;
+
     private Animator animator;
 
-    private void Start()
+    void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
     }
 
-    private void Update()
+    void Update()
     {
-        //接地判定
-        if (characterController.isGrounded)
+        //水平方向と垂直方向の移動を取得
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        //入力方向を計算しカメラの向きを合わせる
+        dir = Vector3.forward * v + Vector3.right * h;
+        dir = Camera.main.transform.TransformDirection(dir);
+        //上下方向の移動を無効
+        dir.y = 0;
+        //移動方向を正規化
+        Vector3 forward = dir.normalized;
+        rb.velocity = forward * movePower;
+        forward.y = 0;
+        //キャラクターの向きを移動方向に合わせる
+        if (forward != Vector3.zero)
         {
-            //xは左右方向、yは上下なので0、zは前後方向を取得
-            velocity = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-            //magnitudeはベクトルの長さ
-            if (velocity.magnitude > 0.1f)
-            {
-                animator.SetFloat("Speed",velocity.magnitude);
-                transform.LookAt(transform.position + velocity);
-            }
-            else
-            {
-                animator.SetFloat("Speed", 0f);
-            }
+            this.transform.forward = forward;
         }
-        velocity.y += Physics.gravity.y * Time.deltaTime;
-        characterController.Move(velocity * Speed * Time.deltaTime);
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 velo = rb.velocity;
+        velo.y = 0;
+        animator.SetFloat("Speed", velo.magnitude);
     }
 }
