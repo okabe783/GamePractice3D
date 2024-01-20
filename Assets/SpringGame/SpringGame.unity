@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: a9e25ff40feb8e64d924af7ef82840b0, type: 2}
 --- !u!4 &50089591 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400074, guid: f95b33c9b8dbfee428d288b4876c9002, type: 3}
@@ -689,7 +689,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!154 &612022811
 TerrainCollider:
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4759e1876361dd641a04f2f6027e3de7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movePower: 15
+  movePower: 5
 --- !u!54 &1765095312
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1282,7 +1282,7 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1.54, z: 0}
---- !u!114 &1776087614
+--- !u!114 &1776087621
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1291,35 +1291,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1776087610}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 149ebb41b5e145d4bb11ae0fc3527f2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 53d365be0bf69ad4fb277ee54a0b75fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
-  waitTime: 5
---- !u!114 &1776087617
-MonoBehaviour:
+--- !u!195 &1776087622
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1776087610}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ec934105d8b7c47bf332ac1b681a6d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1776087618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1776087610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4af0626fb280b864183ed048f7db15a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1997368437
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,6 +1326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1997368438}
   - component: {fileID: 1997368439}
+  - component: {fileID: 1997368440}
   m_Layer: 0
   m_Name: SearthArea
   m_TagString: Untagged
@@ -1363,5 +1360,47 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1000
-  m_Center: {x: 350.35, y: 0, z: 0}
+  m_Radius: 1587.2
+  m_Center: {x: -4.8, y: 105.1, z: -114.2}
+--- !u!114 &1997368440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1997368437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f17c0f53f103e49a43e08eaa20d4b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onTriggerStayEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1776087621}
+        m_TargetAssemblyTypeName: EnemyNavMove, Assembly-CSharp
+        m_MethodName: OnDetect
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onTriggerExitEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1776087621}
+        m_TargetAssemblyTypeName: EnemyNavMove, Assembly-CSharp
+        m_MethodName: OnLoseObject
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
