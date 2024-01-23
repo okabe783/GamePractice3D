@@ -9,6 +9,7 @@ public class CharactorMove : MonoBehaviour
     Vector3 dir;
 
     private Animator animator;
+    private bool attacked;
 
     void Start()
     {
@@ -42,5 +43,13 @@ public class CharactorMove : MonoBehaviour
         Vector3 velo = rb.velocity;
         velo.y = 0;
         animator.SetFloat("Speed", velo.magnitude);
+    }
+
+    void Attacking()
+    {
+        if (attacked)
+        {
+            
+        }
     }
 }
