@@ -11,80 +11,64 @@ public class EnemyNavMove : MonoBehaviour
         Attacking,　//攻撃
         Died,　//死亡
     }
-    
+
+    private CharactorStatus status;
+    private Animator animator;
     private State state = State.Walking; //現在のステート
     private State nextState = State.Walking;
     private NavMeshAgent navMeshAgent;
+
     private void Start()
     {
         navMeshAgent = this.gameObject.GetComponent<NavMeshAgent>();
+        status = GetComponent<CharactorStatus>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (state != nextState)
         {
-            OnStateExit();
             state = nextState;
-            OnStateEnter();
         }
 
+        Debug.Log(state);
         switch (state)
         {
             case State.Walking:
-                // if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
-                // {
-                //     nextState = State.Walking;
-                // }
+                //経路探索が終了していれば
+                if (!navMeshAgent.pathPending)
+                {
+                    animator.SetFloat("Speed", 0.0f);
+                    nextState = State.Walking;
+                }
+                else
+                {
+                    nextState = State.Chasing;
+                }
+
                 break;
             case State.Chasing:
                 if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
                 {
-                    nextState = State.Walking;
+                    animator.SetFloat("Speed", 0.0f);
+                    nextState = State.Attacking;
                 }
                 break;
             case State.Attacking:
+                AttackStart();
                 break;
             case State.Died:
                 break;
         }
     }
 
-    public void OnStateEnter()
-    {
-        switch (state)
-        {
-            case State.Walking:
-                break;
-            case State.Chasing:
-                break;
-            case State.Attacking:
-                break;
-            case State.Died:
-                break;
-        }
-        Debug.Log(state);
-    }
-
-    void OnStateExit()
-    {
-        switch (state)
-        {
-            case State.Walking:
-                break;
-            case State.Chasing:
-                break;
-            case State.Attacking:
-                break;
-            case State.Died:
-                break;
-        }
-    }
     public void OnDetect(Collider col)
     {
         //設定した対象を追いかける
         if (col.gameObject.CompareTag("Player"))
         {
+            animator.SetFloat("Speed", 0.5f);
             nextState = State.Chasing;
             navMeshAgent.destination = col.gameObject.transform.position;
             navMeshAgent.isStopped = false;
@@ -96,10 +80,25 @@ public class EnemyNavMove : MonoBehaviour
         if (col.gameObject.CompareTag("Player"))
         {
             //目的地を今の自分の場所にして止まる
-            //navMeshAgent.destination = this.gameObject.transform.position;
-            nextState = State.Walking;
-            navMeshAgent.isStopped = true;
+            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
+            {
+                nextState = State.Walking;
+                animator.SetFloat("Speed", 0f);
+                navMeshAgent.isStopped = true;
+            }
         }
     }
-    
+
+    void AttackStart()
+    {
+        StateStartCommon();
+        status.attacking = true;
+    }
+
+    //ステートが始まる前にステータスを初期化
+    void StateStartCommon()
+    {
+        status.attacking = false;
+        status.died = false;
+    }
 }

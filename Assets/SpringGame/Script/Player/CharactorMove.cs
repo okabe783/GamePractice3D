@@ -44,12 +44,4 @@ public class CharactorMove : MonoBehaviour
         velo.y = 0;
         animator.SetFloat("Speed", velo.magnitude);
     }
-
-    void Attacking()
-    {
-        if (attacked)
-        {
-            
-        }
-    }
 }
