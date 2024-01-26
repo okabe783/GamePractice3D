@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class CharactorMove : MonoBehaviour
@@ -9,15 +10,31 @@ public class CharactorMove : MonoBehaviour
     Vector3 dir;
 
     private Animator animator;
-    private bool attacked;
+    private CharactorAttack charactorAttack;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        charactorAttack = GetComponent<CharactorAttack>();
     }
 
     void Update()
+    {
+        if (!charactorAttack.IsAttacked)
+        {
+            Move();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        Vector3 velo = rb.velocity;
+        velo.y = 0;
+        animator.SetFloat("Speed", velo.magnitude);
+    }
+
+    void Move()
     {
         //水平方向と垂直方向の移動を取得
         float h = Input.GetAxisRaw("Horizontal");
@@ -37,11 +54,8 @@ public class CharactorMove : MonoBehaviour
             this.transform.forward = forward;
         }
     }
-
-    void FixedUpdate()
+    private void OnAnimatorMove()
     {
-        Vector3 velo = rb.velocity;
-        velo.y = 0;
-        animator.SetFloat("Speed", velo.magnitude);
+        transform.position = animator.rootPosition;
     }
 }

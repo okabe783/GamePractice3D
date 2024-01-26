@@ -91,14 +91,6 @@ public class EnemyNavMove : MonoBehaviour
 
     void AttackStart()
     {
-        StateStartCommon();
-        status.attacking = true;
-    }
-
-    //ステートが始まる前にステータスを初期化
-    void StateStartCommon()
-    {
-        status.attacking = false;
-        status.died = false;
+        
     }
 }
