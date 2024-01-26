@@ -17,6 +17,11 @@ public class EnemyNavMove : MonoBehaviour
     private State state = State.Walking; //現在のステート
     private State nextState = State.Walking;
     private NavMeshAgent navMeshAgent;
+    public float attackSpan = 0.5f;
+    public Collider attackCollider;
+    private float delay = 3;
+    [SerializeField]
+    private float timer = 0;
 
     private void Start()
     {
@@ -54,6 +59,7 @@ public class EnemyNavMove : MonoBehaviour
                     animator.SetFloat("Speed", 0.0f);
                     nextState = State.Attacking;
                 }
+
                 break;
             case State.Attacking:
                 AttackStart();
@@ -61,6 +67,8 @@ public class EnemyNavMove : MonoBehaviour
             case State.Died:
                 break;
         }
+
+        DelayCount();
     }
 
     public void OnDetect(Collider col)
@@ -89,8 +97,22 @@ public class EnemyNavMove : MonoBehaviour
         }
     }
 
+    
+
     void AttackStart()
     {
-        
+        if (timer > delay)
+        {
+            animator.SetTrigger("Attack");
+            timer = 0;
+        }
+    }
+
+    void DelayCount()
+    {
+        if (state != State.Attacking)
+        {
+            timer += Time.deltaTime;
+        }
     }
 }

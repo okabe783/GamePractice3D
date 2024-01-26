@@ -756,6 +756,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53d365be0bf69ad4fb277ee54a0b75fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackSpan: 0.5
+  attackCollider: {fileID: 0}
+  timer: 0
 --- !u!195 &1776087622
 NavMeshAgent:
   m_ObjectHideFlags: 0

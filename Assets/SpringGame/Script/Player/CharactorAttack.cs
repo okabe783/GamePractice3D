@@ -15,7 +15,7 @@ public class CharactorAttack : MonoBehaviour
     {
         Attacking();
     }
-    
+
     void Attacking()
     {
         if (Input.GetMouseButtonDown(0))
@@ -23,13 +23,14 @@ public class CharactorAttack : MonoBehaviour
             if (isAttacked == false)
             {
                 isAttacked = true;
-                animator.SetBool("Attack",true);
+                animator.SetBool("Attack", true);
             }
         }
     }
-    public void AttackEnd()
+
+    void AttackEnd()
     {
-        animator.SetBool("Attack",false);
+        animator.SetBool("Attack", false);
         isAttacked = false;
         Debug.Log("消えました");
     }
