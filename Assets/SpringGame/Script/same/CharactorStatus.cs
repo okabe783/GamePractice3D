@@ -1,17 +1,38 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CharactorStatus : MonoBehaviour
 {
     //体力
     public int hp = 100;
-    public int maxHp = 100;
-    //攻撃力
-    public int power = 10;
-    //最後に攻撃した対象
-    public GameObject lastAttackTarget = null;
-    //player名
-    public string name = "Player";
-    //状態
-    public bool attacking = false;
-    public bool died = false;
+    private Animator animator;
+
+    public UnityEvent onDieCallback = new UnityEvent();
+
+    void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    public void Damage(int damage)
+    {
+        if (hp <= 0)
+        {
+            return;
+        }
+
+        hp -= damage;
+        //UIはここに書く
+        if (hp <= 0)
+        {
+            OnDie();
+        }
+    }
+
+    void OnDie()
+    {
+        animator.SetBool("Die",true);
+        onDieCallback.Invoke();
+    }
 }

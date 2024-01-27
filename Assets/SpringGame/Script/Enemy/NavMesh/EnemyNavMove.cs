@@ -59,7 +59,6 @@ public class EnemyNavMove : MonoBehaviour
                     animator.SetFloat("Speed", 0.0f);
                     nextState = State.Attacking;
                 }
-
                 break;
             case State.Attacking:
                 AttackStart();
