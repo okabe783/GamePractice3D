@@ -947,5 +947,9 @@ PrefabInstance:
       propertyPath: m_ApplyRootMotion
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2127786673729432485, guid: b1a5704dc5e6ac44f97e4d8e2092873a, type: 3}
+      propertyPath: hitEffect
+      value: 
+      objectReference: {fileID: 4835143313035629278, guid: fd2b4ed4655ac354997ca7a903efc4f8, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1a5704dc5e6ac44f97e4d8e2092873a, type: 3}

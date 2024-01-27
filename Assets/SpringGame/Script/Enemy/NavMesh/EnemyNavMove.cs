@@ -96,9 +96,6 @@ public class EnemyNavMove : MonoBehaviour
             }
         }
     }
-
-    
-
     void AttackStart()
     {
         if (timer > delay)
