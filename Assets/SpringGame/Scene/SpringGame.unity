@@ -951,5 +951,13 @@ PrefabInstance:
       propertyPath: hitEffect
       value: 
       objectReference: {fileID: 4835143313035629278, guid: fd2b4ed4655ac354997ca7a903efc4f8, type: 3}
+    - target: {fileID: 2127786673729432485, guid: b1a5704dc5e6ac44f97e4d8e2092873a, type: 3}
+      propertyPath: kickEffect
+      value: 
+      objectReference: {fileID: 8829912710405959793, guid: 2178e68a4e66ff5499cd3d507e96f166, type: 3}
+    - target: {fileID: 2127786673729432485, guid: b1a5704dc5e6ac44f97e4d8e2092873a, type: 3}
+      propertyPath: specialEffect
+      value: 
+      objectReference: {fileID: 4835143313035629278, guid: fd2b4ed4655ac354997ca7a903efc4f8, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1a5704dc5e6ac44f97e4d8e2092873a, type: 3}

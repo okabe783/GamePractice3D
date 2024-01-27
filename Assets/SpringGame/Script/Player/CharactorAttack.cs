@@ -4,7 +4,8 @@ public class CharactorAttack : MonoBehaviour
 {
     private Animator animator;
     private bool isAttacked;
-    public GameObject hitEffect;
+    public GameObject specialEffect;
+    public GameObject kickEffect;
     public bool IsAttacked => isAttacked;
 
     private void Start()
@@ -49,11 +50,16 @@ public class CharactorAttack : MonoBehaviour
     void AttackHit()
     {
         //エフェクトの生成
-        GameObject effect = Instantiate(hitEffect,transform.position,Quaternion.identity) as GameObject;
+        GameObject effect = Instantiate(specialEffect,transform.position,Quaternion.identity);
         //位置を微調整
         effect.transform.localPosition = transform.position + new Vector3(0f, 0.5f, 0f);
         Destroy(effect,1f);
-        Debug.Log("燃える");
-        //Damage処理
+    }
+
+    void KickEffect()
+    {
+        GameObject kick = Instantiate(kickEffect, transform.position, Quaternion.identity);
+        kick.transform.localPosition = transform.position + new Vector3(0f, 0.5f, 0f);
+        Destroy(kick,0.5f);
     }
 }
