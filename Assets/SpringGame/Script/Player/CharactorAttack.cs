@@ -22,11 +22,8 @@ public class CharactorAttack : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (isAttacked == false)
-            {
                 isAttacked = true;
                 animator.SetBool("Attack", true);
-            }
         }
 
         if (Input.GetMouseButtonDown(1))

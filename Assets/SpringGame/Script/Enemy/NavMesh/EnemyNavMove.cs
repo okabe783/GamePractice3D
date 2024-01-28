@@ -17,8 +17,6 @@ public class EnemyNavMove : MonoBehaviour
     private State state = State.Walking; //現在のステート
     private State nextState = State.Walking;
     private NavMeshAgent navMeshAgent;
-    public float attackSpan = 0.5f;
-    public Collider attackCollider;
     private float delay = 3;
     [SerializeField]
     private float timer = 0;
@@ -36,8 +34,7 @@ public class EnemyNavMove : MonoBehaviour
         {
             state = nextState;
         }
-
-        Debug.Log(state);
+        
         switch (state)
         {
             case State.Walking:
@@ -64,6 +61,7 @@ public class EnemyNavMove : MonoBehaviour
                 AttackStart();
                 break;
             case State.Died:
+                Destroy(this.gameObject,5f);
                 break;
         }
 
@@ -72,8 +70,7 @@ public class EnemyNavMove : MonoBehaviour
 
     public void OnDetect(Collider col)
     {
-        //設定した対象を追いかける
-        if (col.gameObject.CompareTag("Player"))
+        if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
         {
             animator.SetFloat("Speed", 0.5f);
             nextState = State.Chasing;
@@ -86,15 +83,42 @@ public class EnemyNavMove : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player"))
         {
-            //目的地を今の自分の場所にして止まる
-            if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
+            if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
             {
-                nextState = State.Walking;
-                animator.SetFloat("Speed", 0f);
-                navMeshAgent.isStopped = true;
+                if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
+                {
+                    nextState = State.Walking;
+                    animator.SetFloat("Speed", 0f);
+                    navMeshAgent.isStopped = true;
+                }
             }
         }
     }
+    // public void OnDetect(Collider col)
+    // {
+    //     //設定した対象を追いかける
+    //     if (col.gameObject.CompareTag("Player"))
+    //     {
+    //         animator.SetFloat("Speed", 0.5f);
+    //         nextState = State.Chasing;
+    //         navMeshAgent.destination = col.gameObject.transform.position;
+    //         navMeshAgent.isStopped = false;
+    //     }
+    // }
+
+    // public void OnLoseObject(Collider col)
+    // {
+    //     if (col.gameObject.CompareTag("Player"))
+    //     {
+    //         //目的地を今の自分の場所にして止まる
+    //         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
+    //         {
+    //             nextState = State.Walking;
+    //             animator.SetFloat("Speed", 0f);
+    //             navMeshAgent.isStopped = true;
+    //         }
+    //     }
+    // }
     void AttackStart()
     {
         if (timer > delay)
@@ -110,5 +134,16 @@ public class EnemyNavMove : MonoBehaviour
         {
             timer += Time.deltaTime;
         }
+    }
+
+    public void ChangeDie()
+    {
+        if (navMeshAgent.isActiveAndEnabled)
+        {
+            //NavMeshが有効なとき、無効にして終了処理を行う
+            navMeshAgent.enabled = false;
+        }
+        
+        nextState = State.Died;
     }
 }

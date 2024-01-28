@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -13,9 +12,11 @@ public class EnemyAttackEffect : MonoBehaviour
     private bool moveEnabled = true;
     public Slider hpBar;
     public UnityEvent onDieCallback = new UnityEvent();
+    private EnemyNavMove enemyNavMove;
 
     private void Start()
     {
+        enemyNavMove = GetComponent<EnemyNavMove>();
         hp = maxHp;
         animator = GetComponent<Animator>();
         if (hpBar != null)
@@ -47,6 +48,7 @@ public class EnemyAttackEffect : MonoBehaviour
     {
         animator.SetTrigger("Death");
         onDieCallback.Invoke();
+        enemyNavMove.ChangeDie();
     }
 
     void DragonHit()
@@ -54,7 +56,7 @@ public class EnemyAttackEffect : MonoBehaviour
         //エフェクトの生成
         GameObject nolmalAttack = Instantiate(dragonNolmal,transform.position,Quaternion.identity);
         //位置を微調整←ここ変更
-        nolmalAttack.transform.localPosition = transform.position + new Vector3(0f, 0.5f, 0f);
+        nolmalAttack.transform.position = transform.position + new Vector3(0f, 0.5f, 0f);
         Destroy(nolmalAttack,1f);
     }
 }
