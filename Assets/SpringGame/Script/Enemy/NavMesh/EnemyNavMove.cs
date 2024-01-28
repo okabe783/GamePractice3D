@@ -78,7 +78,7 @@ public class EnemyNavMove : MonoBehaviour
             navMeshAgent.isStopped = false;
         }
     }
-
+    
     public void OnLoseObject(Collider col)
     {
         if (col.gameObject.CompareTag("Player"))
@@ -94,31 +94,6 @@ public class EnemyNavMove : MonoBehaviour
             }
         }
     }
-    // public void OnDetect(Collider col)
-    // {
-    //     //設定した対象を追いかける
-    //     if (col.gameObject.CompareTag("Player"))
-    //     {
-    //         animator.SetFloat("Speed", 0.5f);
-    //         nextState = State.Chasing;
-    //         navMeshAgent.destination = col.gameObject.transform.position;
-    //         navMeshAgent.isStopped = false;
-    //     }
-    // }
-
-    // public void OnLoseObject(Collider col)
-    // {
-    //     if (col.gameObject.CompareTag("Player"))
-    //     {
-    //         //目的地を今の自分の場所にして止まる
-    //         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
-    //         {
-    //             nextState = State.Walking;
-    //             animator.SetFloat("Speed", 0f);
-    //             navMeshAgent.isStopped = true;
-    //         }
-    //     }
-    // }
     void AttackStart()
     {
         if (timer > delay)
@@ -147,3 +122,28 @@ public class EnemyNavMove : MonoBehaviour
         nextState = State.Died;
     }
 }
+// public void OnDetect(Collider col)
+// {
+//     //設定した対象を追いかける
+//     if (col.gameObject.CompareTag("Player"))
+//     {
+//         animator.SetFloat("Speed", 0.5f);
+//         nextState = State.Chasing;
+//         navMeshAgent.destination = col.gameObject.transform.position;
+//         navMeshAgent.isStopped = false;
+//     }
+// }
+//
+// public void OnLoseObject(Collider col)
+// {
+//     if (col.gameObject.CompareTag("Player"))
+//     {
+//         //目的地を今の自分の場所にして止まる
+//         if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
+//         {
+//             nextState = State.Walking;
+//             animator.SetFloat("Speed", 0f);
+//             navMeshAgent.isStopped = true;
+//         }
+//     }
+// }

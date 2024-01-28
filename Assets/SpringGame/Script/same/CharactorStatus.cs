@@ -4,7 +4,8 @@ using UnityEngine.Events;
 public class CharactorStatus : MonoBehaviour
 {
     //体力
-    public int hp = 100;
+    public int maxHp = 100;
+    public int hp;
     private Animator animator;
 
     public UnityEvent onDieCallback = new UnityEvent();
@@ -12,6 +13,7 @@ public class CharactorStatus : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        hp = maxHp;
     }
 
     public void Damage(int damage)
