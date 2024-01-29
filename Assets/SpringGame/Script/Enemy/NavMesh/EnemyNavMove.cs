@@ -48,7 +48,6 @@ public class EnemyNavMove : MonoBehaviour
     {
         if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
         {
-            animator.SetFloat("Speed", 0.5f);
             nextState = State.Chasing;
             navMeshAgent.destination = col.gameObject.transform.position;
             navMeshAgent.isStopped = false;
@@ -91,14 +90,21 @@ public class EnemyNavMove : MonoBehaviour
             case State.Chasing:
                 //remainingDistance→目標地点まで進んだ距離=>stoppingDistance→目標地点に到達する前に停止する距離　＝ 目的地にほぼ到達したかどうか
                 //navMeshAgent.pathPending→新しい経路を計算中かどうか
+                animator.SetFloat("Speed", 0.5f);
                 if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
                 {
+                    animator.SetFloat("Speed", 0.0f);
                     nextState = State.Attacking;
                     // エージェントが進んでいる場合は、目標方向を向く
                     Vector3 direction = (navMeshAgent.destination - transform.position).normalized;
-                    Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-                    transform.rotation =
-                        Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+                    if (direction != Vector3.zero)
+                    {
+                        Quaternion lookRotation = Quaternion.LookRotation (new Vector3(direction.x, 0, direction.z));
+                        transform.rotation = lookRotation;
+                    }
+                    else {
+                        Debug.LogWarning("Direction vector is zero. Using a default direction or alternative method.");
+                    }
                 }
 
                 break;
