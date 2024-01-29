@@ -7,38 +7,38 @@ public class EnemyAttackEffect : MonoBehaviour
     public GameObject dragonNolmal;
     private Animator animator;
     public int maxHp = 100;
-    private int hp;
+    private int enemyHp;
     private bool isDeath;
     private bool moveEnabled = true;
-    public Slider hpBar;
+    public Slider enemyHpBar;
     public UnityEvent onDieCallback = new UnityEvent();
     private EnemyNavMove enemyNavMove;
 
     private void Start()
     {
         enemyNavMove = GetComponent<EnemyNavMove>();
-        hp = maxHp;
+        enemyHp = maxHp;
         animator = GetComponent<Animator>();
-        if (hpBar != null)
+        if (enemyHpBar != null)
         {
-            hpBar.value = hp;
+            enemyHpBar.value = enemyHp;
         }
     }
 
     public void Damage(int damage)
     {
-        if (hp <= 0)
+        if (enemyHp <= 0)
         {
             return;
         }
 
-        hp -= damage;
-        if (hpBar != null)
+        enemyHp -= damage;
+        if (enemyHpBar != null)
         {
-            hpBar.value = hp;
+            enemyHpBar.value = enemyHp;
         }
 
-        if (hp <= 0)
+        if (enemyHp <= 0)
         {
             OnDie();
         }
@@ -61,13 +61,10 @@ public class EnemyAttackEffect : MonoBehaviour
             //playerの座標を取得
             Vector3 playerPosition = playerObject.transform.position;
             //エフェクトの生成
-            GameObject nolmalAttack = Instantiate(dragonNolmal,playerPosition,Quaternion.identity);
+            GameObject nolmalAttack = Instantiate(dragonNolmal, playerPosition, Quaternion.identity);
             //位置を微調整
             nolmalAttack.transform.position = playerPosition + new Vector3(0f, 0.5f, 0f);
-            Destroy(nolmalAttack,1f);
+            Destroy(nolmalAttack, 1f);
         }
-        
-        
-        
     }
 }

@@ -1,39 +1,49 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class CharactorStatus : MonoBehaviour
+public class CharactorStatus : MonoBehaviour,IDamageInterFace
 {
     //体力
     public int maxHp = 100;
-    public int hp;
+    public int playerHp;
     private Animator animator;
+    public Slider playerHpBar;
 
     public UnityEvent onDieCallback = new UnityEvent();
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        hp = maxHp;
-    }
-
-    public void Damage(int damage)
-    {
-        if (hp <= 0)
+        playerHp = maxHp;
+        if (playerHpBar != null)
         {
-            return;
-        }
-
-        hp -= damage;
-        //UIはここに書く
-        if (hp <= 0)
-        {
-            OnDie();
+            playerHpBar.value = playerHp;
         }
     }
-
+    
     void OnDie()
     {
         animator.SetBool("Die",true);
         onDieCallback.Invoke();
+    }
+
+    public void AtDamage(int damageValue)
+    {
+        if (playerHp <= 0)
+        {
+            return;
+        }
+
+        playerHp -= damageValue;
+        //UI
+        if (playerHpBar != null)
+        {
+            playerHpBar.value = playerHp;
+        }
+        if (playerHp <= 0)
+        {
+            OnDie();
+        }
     }
 }
