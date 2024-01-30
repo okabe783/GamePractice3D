@@ -13,6 +13,7 @@ public class EnemyAttackEffect : MonoBehaviour
     public Slider enemyHpBar;
     public UnityEvent onDieCallback = new UnityEvent();
     private EnemyNavMove enemyNavMove;
+    [SerializeField] private GameObject fireBall;
 
     private void Start()
     {
@@ -62,9 +63,14 @@ public class EnemyAttackEffect : MonoBehaviour
             Vector3 playerPosition = playerObject.transform.position;
             //エフェクトの生成
             GameObject nolmalAttack = Instantiate(dragonNolmal, playerPosition, Quaternion.identity);
+            //FireBallEffectの生成
+            GameObject fireEffect = Instantiate(fireBall, playerPosition, Quaternion.identity);
+            
             //位置を微調整
             nolmalAttack.transform.position = playerPosition + new Vector3(0f, 0.5f, 0f);
             Destroy(nolmalAttack, 1f);
+            fireEffect.transform.position = playerPosition + new Vector3(0f, 0.5f, 0f);
+            Destroy(fireEffect, 1f);
         }
     }
 }

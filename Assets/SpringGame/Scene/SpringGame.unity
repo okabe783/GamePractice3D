@@ -1399,6 +1399,7 @@ MonoBehaviour:
   onDieCallback:
     m_PersistentCalls:
       m_Calls: []
+  fireBall: {fileID: 3464938569754382051, guid: 0b8a1741fe8da2945bfb69bd92603161, type: 3}
 --- !u!143 &1776087627
 CharacterController:
   m_ObjectHideFlags: 0
