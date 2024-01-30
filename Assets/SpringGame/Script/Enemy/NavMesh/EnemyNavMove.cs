@@ -95,14 +95,15 @@ public class EnemyNavMove : MonoBehaviour
                 {
                     animator.SetFloat("Speed", 0.0f);
                     nextState = State.Attacking;
-                    // エージェントが進んでいる場合は、目標方向を向く
+                    // エージェント(player)が進んでいる場合は、目標方向を向く
                     Vector3 direction = (navMeshAgent.destination - transform.position).normalized;
                     if (direction != Vector3.zero)
                     {
-                        Quaternion lookRotation = Quaternion.LookRotation (new Vector3(direction.x, 0, direction.z));
+                        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
                         transform.rotation = lookRotation;
                     }
-                    else {
+                    else
+                    {
                         Debug.LogWarning("Direction vector is zero. Using a default direction or alternative method.");
                     }
                 }

@@ -24,7 +24,7 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
     
     void OnDie()
     {
-        animator.SetBool("Die",true);
+        animator.SetTrigger("Die");
         onDieCallback.Invoke();
     }
 

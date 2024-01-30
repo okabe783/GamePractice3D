@@ -23,7 +23,7 @@ public class CharactorAttack : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
                 isAttacked = true;
-                animator.SetBool("Attack", true);
+                animator.SetTrigger("Attack");
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -38,7 +38,7 @@ public class CharactorAttack : MonoBehaviour
 
     void AttackEnd()
     {
-        animator.SetBool("Attack", false);
+        //animator.SetTrigger("Attack");
         animator.SetBool("Special", false);
         isAttacked = false;
         Debug.Log("消えました");
