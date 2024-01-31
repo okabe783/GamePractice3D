@@ -1,54 +1,55 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class EnemyAttackEffect : MonoBehaviour
 {
-    public GameObject dragonNolmal;
     private Animator animator;
+
+    //FireBall
+    public GameObject fireBallCol;
+
+    [SerializeField] private GameObject fireBall;
+
+    //Hp
     public int maxHp = 100;
     private int enemyHp;
-    private bool isDeath;
-    private bool moveEnabled = true;
+
     public Slider enemyHpBar;
-    public UnityEvent onDieCallback = new UnityEvent();
+
+    //死亡判定
+    private bool isDeath;
+
+    //script
     private EnemyNavMove enemyNavMove;
-    [SerializeField] private GameObject fireBall;
 
     private void Start()
     {
         enemyNavMove = GetComponent<EnemyNavMove>();
-        enemyHp = maxHp;
         animator = GetComponent<Animator>();
-        if (enemyHpBar != null)
-        {
-            enemyHpBar.value = enemyHp;
-        }
+        //hpをMaxに
+        enemyHp = maxHp;
+        //HpBarUI
+        if (enemyHpBar != null) enemyHpBar.value = enemyHp;
     }
 
+    //Damage処理
     public void Damage(int damage)
     {
-        if (enemyHp <= 0)
-        {
-            return;
-        }
-
+        if (enemyHp <= 0) return;
+        //EnemyのHpを送られてきたint分減らしてHpBarに反映
         enemyHp -= damage;
-        if (enemyHpBar != null)
-        {
-            enemyHpBar.value = enemyHp;
-        }
-
+        if (enemyHpBar != null) enemyHpBar.value = enemyHp;
+        //Hpが0ならOnDieする
         if (enemyHp <= 0)
         {
             OnDie();
         }
     }
 
+    //死亡処理
     void OnDie()
     {
         animator.SetTrigger("Death");
-        onDieCallback.Invoke();
         enemyNavMove.ChangeDie();
     }
 
@@ -56,20 +57,18 @@ public class EnemyAttackEffect : MonoBehaviour
     {
         //playerタグがついているオブジェクトを検索
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        Vector3 playerPosition = playerObject.transform.position;
+
         //playerObjectが存在する場合
         if (playerObject != null)
         {
-            //playerの座標を取得
-            Vector3 playerPosition = playerObject.transform.position;
             //エフェクトの生成
-            GameObject nolmalAttack = Instantiate(dragonNolmal, playerPosition, Quaternion.identity);
+            GameObject nolmalAttack = Instantiate(fireBallCol, playerPosition + new Vector3(1f, 0.5f, 0f),
+                Quaternion.identity);
             //FireBallEffectの生成
-            GameObject fireEffect = Instantiate(fireBall, playerPosition, Quaternion.identity);
-            
-            //位置を微調整
-            nolmalAttack.transform.position = playerPosition + new Vector3(0f, 0.5f, 0f);
+            GameObject fireEffect = Instantiate(fireBall, playerPosition + new Vector3(1f, 0.5f, 0f),
+                Quaternion.identity);
             Destroy(nolmalAttack, 1f);
-            fireEffect.transform.position = playerPosition + new Vector3(0f, 0.5f, 0f);
             Destroy(fireEffect, 1f);
         }
     }

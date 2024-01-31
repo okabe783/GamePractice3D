@@ -102,10 +102,6 @@ public class EnemyNavMove : MonoBehaviour
                         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
                         transform.rotation = lookRotation;
                     }
-                    else
-                    {
-                        Debug.LogWarning("Direction vector is zero. Using a default direction or alternative method.");
-                    }
                 }
 
                 break;

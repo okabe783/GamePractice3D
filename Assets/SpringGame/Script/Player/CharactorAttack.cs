@@ -38,10 +38,8 @@ public class CharactorAttack : MonoBehaviour
 
     void AttackEnd()
     {
-        //animator.SetTrigger("Attack");
         animator.SetBool("Special", false);
         isAttacked = false;
-        Debug.Log("消えました");
     }
 
     void AttackHit()
