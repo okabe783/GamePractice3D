@@ -1,16 +1,15 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharactorStatus : MonoBehaviour,IDamageInterFace
 {
     //体力
-    public int maxHp = 100;
+    public int maxHp = 10;
     public int playerHp;
     private Animator animator;
     public Slider playerHpBar;
-
-    public UnityEvent onDieCallback = new UnityEvent();
+    public GameObject gameOverCanvas;
 
     void Start()
     {
@@ -21,11 +20,18 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
             playerHpBar.value = playerHp;
         }
     }
-    
+
+    private void Update()
+    {
+        if (playerHp <= 0)
+        {
+            gameOverCanvas.SetActive(true);
+        }
+    }
+
     void OnDie()
     {
         animator.SetTrigger("Die");
-        onDieCallback.Invoke();
     }
 
     public void AtDamage(int damageValue)
