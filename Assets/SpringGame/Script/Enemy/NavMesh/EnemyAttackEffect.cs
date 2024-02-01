@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EnemyAttackEffect : MonoBehaviour
@@ -6,9 +7,9 @@ public class EnemyAttackEffect : MonoBehaviour
     private Animator animator;
 
     //FireBall
-    public GameObject fireBallCol;
+    public GameObject fireBallPrefab;
     [SerializeField] private GameObject fireBall;
-    [SerializeField] private GameObject muzzle;
+    [SerializeField] private GameObject muzzlePosition;
 
     //Hp
     public int maxHp = 100;
@@ -62,14 +63,14 @@ public class EnemyAttackEffect : MonoBehaviour
         //playerObjectが存在する場合
         if (playerObject != null)
         {
-            //エフェクトの生成
-            GameObject nolmalAttack = Instantiate(fireBallCol, playerPosition + new Vector3(1f, 0.5f, 0f),
-                Quaternion.identity);
+            //当たり判定用FireBallPrefabの生成
+            GameObject nolmalAttack = Instantiate(fireBallPrefab, muzzlePosition.transform.position,fireBallPrefab.transform.rotation);
             //FireBallEffectの生成
-            GameObject fireEffect = Instantiate(fireBall, muzzle.transform.position - new Vector3(0f, 0f, 3f),
-                Quaternion.identity);
+            GameObject fireEffect = Instantiate(fireBall, muzzlePosition.transform.position, muzzlePosition.transform.rotation);
             Destroy(nolmalAttack, 1f);
-            Destroy(fireEffect, 3f);
+            Destroy(fireEffect, 2f);
         }
     }
 }
+//GameObject nolmalAttack = Instantiate(fireBallCol, playerPosition + new Vector3(1f, 0.5f, 0f),
+//    Quaternion.identity);

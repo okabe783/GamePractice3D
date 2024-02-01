@@ -1,15 +1,20 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharactorMove : MonoBehaviour
 {
     //移動速度
     [SerializeField] float movePower = 3;
+    [SerializeField] private GameObject warpEffect;
+
     Rigidbody rb;
+
     //キャラクターの移動方向を表すベクトル
     Vector3 dir;
 
     private Animator animator;
     private CharactorAttack charactorAttack;
+    private WarpState warpState;
 
     void Start()
     {
@@ -24,6 +29,11 @@ public class CharactorMove : MonoBehaviour
         {
             Move();
         }
+
+        if (Input.GetKeyDown(KeyCode.A)) WarpA(WarpState.aa, 0, 10);
+        if (Input.GetKeyDown(KeyCode.D)) WarpA(WarpState.dd, 0, -10);
+        if (Input.GetKeyDown(KeyCode.W)) WarpA(WarpState.ww, 10, 0);
+        if (Input.GetKeyDown(KeyCode.S)) WarpA(WarpState.ss, -10, 0);
     }
 
     void FixedUpdate()
@@ -53,8 +63,46 @@ public class CharactorMove : MonoBehaviour
             this.transform.forward = forward;
         }
     }
+
     private void OnAnimatorMove()
     {
         transform.position = animator.rootPosition;
     }
+
+    private bool warpCd = false;
+    WarpState tmp = WarpState.kara;
+    private void WarpA(WarpState warpState, int x, int z)
+    {
+        if (tmp == warpState)
+        {
+            if (warpCd == false)
+            {
+                var  newEffect= Instantiate(warpEffect, transform);
+                Destroy(newEffect,1f);
+                transform.position =
+                    new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z);
+                StartCoroutine(AaWarpCooldown());
+            }
+        }
+        else
+        {
+            tmp = warpState;
+        }
+    }
+
+    IEnumerator AaWarpCooldown()
+    {
+        warpCd = true;
+        yield return new WaitForSeconds(2f);
+        warpCd = false;
+    }
+}
+
+enum WarpState
+{
+    aa,
+    dd,
+    ww,
+    ss,
+    kara
 }

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class CharactorStatus : MonoBehaviour,IDamageInterFace
 {
@@ -10,6 +9,9 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
     private Animator animator;
     public Slider playerHpBar;
     public GameObject gameOverCanvas;
+    public GameObject gameWinCanvas;
+    public GameObject enemy;
+    private CharactorMove charaMove;
 
     void Start()
     {
@@ -27,6 +29,8 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
         {
             gameOverCanvas.SetActive(true);
         }
+
+        Win();
     }
 
     void OnDie()
@@ -50,6 +54,15 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
         if (playerHp <= 0)
         {
             OnDie();
+        }
+    }
+
+    public void Win()
+    {
+        if (!enemy)
+        {
+            gameWinCanvas.SetActive(true);
+            Debug.Log("Win");
         }
     }
 }

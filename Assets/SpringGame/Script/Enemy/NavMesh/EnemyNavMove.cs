@@ -4,14 +4,14 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyNavMove : MonoBehaviour
 {
-    enum State
+    private enum State
     {
         Walking, //探索
         Chasing,　//追跡
         Attacking,　//攻撃
         Died,　//死亡
     }
-
+    
     private Animator animator;
 
     private NavMeshAgent navMeshAgent;
