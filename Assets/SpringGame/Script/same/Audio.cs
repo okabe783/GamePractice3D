@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class Footstep : MonoBehaviour
+public class Audio : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip footstepSound;
     [SerializeField] private AudioClip kickSound;
     [SerializeField] private AudioClip SpecialEffect;
+    [SerializeField] private AudioClip bless;
+    [SerializeField] private AudioClip enemyStep;
 
-    //足音
+    //Playerの足音
     public void PlayFootStepSound()
     {
         audioSource.PlayOneShot(footstepSound);
@@ -21,5 +23,15 @@ public class Footstep : MonoBehaviour
     public void PlaySpecialSound()
     {
         audioSource.PlayOneShot(SpecialEffect);
+    }
+    //EnemyのBless攻撃
+    public void EnemyBlessSound()
+    {
+        audioSource.PlayOneShot(bless);
+    }
+
+    public void EnemyStep()
+    {
+        audioSource.PlayOneShot(enemyStep);
     }
 }

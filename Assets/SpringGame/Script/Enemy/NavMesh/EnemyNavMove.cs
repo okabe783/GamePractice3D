@@ -18,8 +18,7 @@ public class EnemyNavMove : MonoBehaviour
 
     //攻撃スパン
     private float delay = 3;
-
-    private float timer = 0;
+    private float timer;
 
     //Stateの初期値
     private State state = State.Walking;
@@ -46,6 +45,7 @@ public class EnemyNavMove : MonoBehaviour
     //追跡開始
     public void OnDetect(Collider col)
     {
+        //NavMeshがアクティブでnullじゃなければ
         if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
         {
             nextState = State.Chasing;
@@ -54,12 +54,14 @@ public class EnemyNavMove : MonoBehaviour
         }
     }
 
+    //見失ったとき
     public void OnLoseObject(Collider col)
     {
         if (col.gameObject.CompareTag("Player"))
         {
             if (navMeshAgent != null && navMeshAgent.isActiveAndEnabled)
             {
+                //距離を比較
                 if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !navMeshAgent.pathPending)
                 {
                     nextState = State.Attacking;
@@ -95,12 +97,13 @@ public class EnemyNavMove : MonoBehaviour
                 {
                     animator.SetFloat("Speed", 0.0f);
                     nextState = State.Attacking;
-                    // エージェント(player)が進んでいる場合は、目標方向を向く
+                    // エージェント(player)が進んでいる場合は、目標方向に回転
                     Vector3 direction = (navMeshAgent.destination - transform.position).normalized;
                     if (direction != Vector3.zero)
                     {
-                        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-                        transform.rotation = lookRotation;
+                        Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation,
+                            rotationSpeed * Time.deltaTime);
                     }
                 }
 
@@ -119,6 +122,7 @@ public class EnemyNavMove : MonoBehaviour
         }
     }
 
+    //攻撃Speed
     void DelayCount()
     {
         if (state != State.Attacking)
@@ -127,6 +131,7 @@ public class EnemyNavMove : MonoBehaviour
         }
     }
 
+    //死亡Stateに変更するメソッド
     public void ChangeDie()
     {
         if (navMeshAgent.isActiveAndEnabled)

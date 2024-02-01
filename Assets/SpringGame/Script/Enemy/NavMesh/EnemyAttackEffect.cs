@@ -7,8 +7,8 @@ public class EnemyAttackEffect : MonoBehaviour
 
     //FireBall
     public GameObject fireBallCol;
-
     [SerializeField] private GameObject fireBall;
+    [SerializeField] private GameObject muzzle;
 
     //Hp
     public int maxHp = 100;
@@ -66,10 +66,10 @@ public class EnemyAttackEffect : MonoBehaviour
             GameObject nolmalAttack = Instantiate(fireBallCol, playerPosition + new Vector3(1f, 0.5f, 0f),
                 Quaternion.identity);
             //FireBallEffectの生成
-            GameObject fireEffect = Instantiate(fireBall, playerPosition + new Vector3(1f, 0.5f, 0f),
+            GameObject fireEffect = Instantiate(fireBall, muzzle.transform.position - new Vector3(0f, 0f, 3f),
                 Quaternion.identity);
             Destroy(nolmalAttack, 1f);
-            Destroy(fireEffect, 1f);
+            Destroy(fireEffect, 3f);
         }
     }
 }
