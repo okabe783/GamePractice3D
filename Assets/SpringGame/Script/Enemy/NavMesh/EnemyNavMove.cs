@@ -17,7 +17,7 @@ public class EnemyNavMove : MonoBehaviour
     private NavMeshAgent navMeshAgent;
 
     //攻撃スパン
-    private float delay = 3;
+    private float delay = 2;
     private float timer;
 
     //Stateの初期値
@@ -111,8 +111,16 @@ public class EnemyNavMove : MonoBehaviour
             case State.Attacking:
                 if (timer > delay)
                 {
-                    animator.SetTrigger("Attack");
-                    timer = 0;
+                    if (Random.Range(0, 2) == 0)
+                    {
+                        Attack();
+                    }
+                    else
+                    {
+                        ClawAttack();
+                    }
+                    
+                     timer = 0;
                 }
 
                 break;
@@ -141,5 +149,15 @@ public class EnemyNavMove : MonoBehaviour
         }
 
         nextState = State.Died;
+    }
+
+    void Attack()
+    {
+        animator.SetTrigger("Attack");
+    }
+
+    void ClawAttack()
+    {
+        animator.SetTrigger("ClawAttack");
     }
 }

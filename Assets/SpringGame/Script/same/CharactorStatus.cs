@@ -62,7 +62,6 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
         if (!enemy)
         {
             gameWinCanvas.SetActive(true);
-            Debug.Log("Win");
         }
     }
 }

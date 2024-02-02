@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EnemyAttackEffect : MonoBehaviour
@@ -8,8 +7,10 @@ public class EnemyAttackEffect : MonoBehaviour
 
     //FireBall
     public GameObject fireBallPrefab;
+    public GameObject clawAttackPrefab;
     [SerializeField] private GameObject fireBall;
     [SerializeField] private GameObject muzzlePosition;
+    [SerializeField] private GameObject clawAttackPosition;
 
     //Hp
     public int maxHp = 100;
@@ -58,19 +59,29 @@ public class EnemyAttackEffect : MonoBehaviour
     {
         //playerタグがついているオブジェクトを検索
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-        Vector3 playerPosition = playerObject.transform.position;
 
         //playerObjectが存在する場合
         if (playerObject != null)
         {
             //当たり判定用FireBallPrefabの生成
-            GameObject nolmalAttack = Instantiate(fireBallPrefab, muzzlePosition.transform.position,fireBallPrefab.transform.rotation);
+            GameObject nolmalAttack = Instantiate(fireBallPrefab, muzzlePosition.transform.position,
+                fireBallPrefab.transform.rotation);
             //FireBallEffectの生成
-            GameObject fireEffect = Instantiate(fireBall, muzzlePosition.transform.position, muzzlePosition.transform.rotation);
+            GameObject fireEffect = Instantiate(fireBall, muzzlePosition.transform.position,
+                muzzlePosition.transform.rotation);
             Destroy(nolmalAttack, 1f);
             Destroy(fireEffect, 2f);
         }
     }
+
+    void ClawAttack()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            GameObject clawAttack = Instantiate(clawAttackPrefab, clawAttackPosition.transform.position,
+                clawAttackPosition.transform.rotation);
+            Destroy(clawAttack, 1f);
+        }
+    }
 }
-//GameObject nolmalAttack = Instantiate(fireBallCol, playerPosition + new Vector3(1f, 0.5f, 0f),
-//    Quaternion.identity);
