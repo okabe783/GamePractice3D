@@ -12,6 +12,11 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
     public GameObject gameWinCanvas;
     public GameObject enemy;
     private CharactorMove charaMove;
+    
+    //ひるみの変数
+    private bool isFlinching = false;
+    private float flinchDuration = 0.5f;
+    private float flinchTimer = 0f;
 
     void Start()
     {
@@ -25,6 +30,18 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
 
     private void Update()
     {
+        //怯み中はなにもしない
+        if (isFlinching)
+        {
+            flinchTimer -= Time.deltaTime;
+            if(flinchTimer <= 0f)
+            {
+                isFlinching = false;
+            }
+            return;
+            
+            
+        }
         if (playerHp <= 0)
         {
             gameOverCanvas.SetActive(true);
@@ -46,14 +63,21 @@ public class CharactorStatus : MonoBehaviour,IDamageInterFace
         }
 
         playerHp -= damageValue;
-        //UI
-        if (playerHpBar != null)
+        if (!isFlinching)
         {
-            playerHpBar.value = playerHp;
-        }
-        if (playerHp <= 0)
-        {
-            OnDie();
+            isFlinching = true;
+            flinchTimer = flinchDuration;
+            //ひるみのアニメーションなど
+            animator.SetTrigger("Damage");
+            //UI
+            if (playerHpBar != null)
+            {
+                playerHpBar.value = playerHp;
+            }
+            if (playerHp <= 0)
+            {
+                OnDie();
+            }
         }
     }
 

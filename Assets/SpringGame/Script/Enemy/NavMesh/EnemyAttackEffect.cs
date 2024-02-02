@@ -77,11 +77,13 @@ public class EnemyAttackEffect : MonoBehaviour
     void ClawAttack()
     {
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
         if (playerObject != null)
         {
             GameObject clawAttack = Instantiate(clawAttackPrefab, clawAttackPosition.transform.position,
                 clawAttackPosition.transform.rotation);
             Destroy(clawAttack, 1f);
+            Debug.Log("a");
         }
     }
 }
