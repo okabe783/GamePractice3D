@@ -11,7 +11,7 @@ public class EnemyNavMove : MonoBehaviour
         Attacking,　//攻撃
         Died,　//死亡
     }
-    
+
     private Animator animator;
 
     private NavMeshAgent navMeshAgent;
@@ -119,8 +119,8 @@ public class EnemyNavMove : MonoBehaviour
                     {
                         ClawAttack();
                     }
-                    
-                     timer = 0;
+
+                    timer = 0;
                 }
 
                 break;

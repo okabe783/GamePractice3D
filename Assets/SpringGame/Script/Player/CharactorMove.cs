@@ -30,10 +30,10 @@ public class CharactorMove : MonoBehaviour
             Move();
         }
 
-        if (Input.GetKeyDown(KeyCode.A)) WarpA(WarpState.aa, 0, 10);
-        if (Input.GetKeyDown(KeyCode.D)) WarpA(WarpState.dd, 0, -10);
-        if (Input.GetKeyDown(KeyCode.W)) WarpA(WarpState.ww, 10, 0);
-        if (Input.GetKeyDown(KeyCode.S)) WarpA(WarpState.ss, -10, 0);
+        if (Input.GetKeyDown(KeyCode.A)) WarpA(WarpState.aa, 0, 5);
+        if (Input.GetKeyDown(KeyCode.D)) WarpA(WarpState.dd, 0, -5);
+        if (Input.GetKeyDown(KeyCode.W)) WarpA(WarpState.ww, 5, 0);
+        if (Input.GetKeyDown(KeyCode.S)) WarpA(WarpState.ss, -5, 0);
     }
 
     void FixedUpdate()
@@ -93,7 +93,7 @@ public class CharactorMove : MonoBehaviour
     IEnumerator AaWarpCooldown()
     {
         warpCd = true;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         warpCd = false;
     }
 }
